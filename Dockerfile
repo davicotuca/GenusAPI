@@ -1,0 +1,31 @@
+FROM python:3.9-alpine3.13
+LABEL maintainer="Davi Oliveira, Natassha Yukari, GianLuca Almeida"
+
+ENV PYTHONUNBUFFERED 1
+
+COPY ./requirements.txt /tmp/requirements.txt
+COPY ./app /app
+WORKDIR /app
+EXPOSE 8000
+
+# O & \ é usada para juntar varios comandos no mesmo run, se rodar cada camada com um run cria um layer cada vez, deixando a imagem mais pesada
+# cria um ambient virtual
+# faz o update do packge management
+# instala os requisitos
+# remove as dependencias adicionais que podem ter sido criadas, ou dependencias temporarias, que devem ser adicionadas nessa pasta
+# adiciona um novo user, para não usar o root, por segurança
+
+RUN python -m venv /py && \
+    /py/bin/pip install --upgrade pip && \
+    /py/bin/pip install -r /tmp/requirements.txt && \
+    rm -rf /tmp && \
+    adduser \
+        --disabled-password \
+        --no-create-home \
+        django-user
+
+# define o path como variavel, que é onde os comandos irão rodar
+ENV PATH="/py/bin:$PATH"
+
+# define esse usario como usuario padrão
+USER django-user
