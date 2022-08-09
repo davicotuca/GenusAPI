@@ -1,0 +1,21 @@
+#excluir esses arquivos do dockerfile, para não deixar ele pesado
+
+# Git
+# arquivos que o git cria, que podem ser mt grande
+.git
+.gitignore
+
+# Docker
+# Arquivos locais que o docker cria que não precisam ser copiados
+.docker
+
+# Python
+# o cache pode ser excluido, inclusive ele é 
+app/__pycache__/
+app/*/__pycache__/
+app/*/*/__pycache__/
+app/*/*/*/__pycache__/
+# remover os arquivos dos ambientes virtuais
+.env/
+.venv/
+venv/
