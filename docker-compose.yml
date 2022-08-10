@@ -1,0 +1,19 @@
+#Version do docker compose - para não quebrar caso lance novas versoes incompativeis
+version: "3.9"
+
+services:
+#nome do nosso servico
+  app:
+    build:
+    #o contexto de onde vamos rodar do docker, o o . significa que e o root
+      context: .
+      args:
+        - DEV=true
+    ports:
+      - "8000:8000"
+    volumes:
+    # isso é para o codigo ser refletido no running container, sem precisar reiniciar o container toda vez
+      - ./app:/app
+      # o comando que e usado para rodar o servidor, podemos overwrite  esse comando usando docker-compose run
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
