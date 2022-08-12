@@ -15,7 +15,7 @@ jobs:
           with:
             username: ${{ secrets.DOCKERHUB_USER }}
             password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Checkout #para poder acessar o codigo
+      - name: Checkout #para poder acessar o codigo  
         uses: actions/checkout@v2
       - name: Test # roda os testes
         run: docker-compose run --rm app sh -c "python manage.py test"
