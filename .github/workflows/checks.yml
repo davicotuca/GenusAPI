@@ -20,4 +20,4 @@ jobs:
       - name: Test # roda os testes
         run: docker-compose run --rm app sh -c "python manage.py test"
       - name: Lint # e por final  flake
-        run: docker-compose run --rm app sh -c "flake8"  
+        run: docker-compose run --rm app sh -c "flake8"
