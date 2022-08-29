@@ -19,6 +19,7 @@ EXPOSE 8000
 ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
+    #adicinando dependencias do db
     apk add --update --no-cache postgresql-client && \
     apk add --update --no-cache --virtual .tmp-build-deps \
         build-base postgresql-dev musl-dev && \
@@ -27,6 +28,7 @@ RUN python -m venv /py && \
         then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
     fi && \
     rm -rf /tmp && \
+    #remove as dependencias do db para deixar a imagem mais leve
     apk del .tmp-build-deps && \
     adduser \
         --disabled-password \

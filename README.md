@@ -11,3 +11,6 @@ docker-compose run --rm app sh -c "python manage.py startapp core"
 docker-compose run --rm app sh -c "flake8"
 # rodar testes
 docker-compose run --rm app sh -c "python manage.py test"
+
+# rodar criando migration
+docker-compose run --rm app sh -c "python manage.py  makemigrations"
