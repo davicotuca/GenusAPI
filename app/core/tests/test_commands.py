@@ -10,7 +10,7 @@ from django.db.utils import OperationalError
 from django.test import SimpleTestCase
 
 
-@patch('core.management.commands.wait_for_db.Command.check') # o comando que estamos mockando
+@patch('core.management.commands.wait_for_db.Command.check')
 class CommandTests(SimpleTestCase):
     """Test commands."""
 
@@ -26,7 +26,7 @@ class CommandTests(SimpleTestCase):
     def test_wait_for_db_delay(self, patched_sleep, patched_check):
         """Test waiting for database when getting OperationalError."""
         patched_check.side_effect = [Psycopg2OpError] * 2 + \
-            [OperationalError] * 3 + [True] # mockando o retorno  do comando mockado 
+            [OperationalError] * 3 + [True]
 
         call_command('wait_for_db')
 

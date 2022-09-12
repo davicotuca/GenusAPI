@@ -1,5 +1,5 @@
+
 [flake8]
-#arquivos para o flake nao monitorar buscando erros de formatacao
 exclude =
   migrations,
   __pycache__,
