@@ -1,44 +1,10 @@
 """
     Views for  the simulations
 """
-import random
+from simulations import derivaService
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
-def rodaNGeracoes(n, p, popSize):
-    result = []
-    for x in range(0, n):
-        p = proximaGeracaoP(popSize, p)
-        result.append(p)
-    return result
-
-def proximaGeracaoP(popSize, p):
-    sum = 0
-    randomPop = random.choices([0,1], weights=(p,1-p), k=popSize)
-
-    for i in range (0, len(randomPop)):
-        sum = sum + randomPop[i]
-
-    return sum/popSize
-        
-# def proximaGeracao(popAtual):
-#     proxPop =[]
-#     for x in range(0, len(popAtual)):
-#         randomInd = random.choice(popAtual)
-#         proxPop.append(randomInd)
-#     return proxPop
-
-# def montaVetor(popSize, popProportion):
-#     p = int(popSize*popProportion)
-#     q = popSize - p
-#     result = []
-#     for x in range(0, p):
-#         result.append(1)
-#     for x in range(0, q):
-#         result.append(0)
-#     return result
-
 
 @api_view(['GET'])
 def deriva(request):
@@ -59,6 +25,6 @@ def deriva(request):
     result = {}
 
     for x in range(0, pops):
-         result[x] = rodaNGeracoes(generations, initialPop, popSize)
+         result[x] = derivaService.rodaNGeracoes_deriva(generations, initialPop, popSize)
     return Response(result)
 
