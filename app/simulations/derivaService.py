@@ -1,5 +1,6 @@
 import random
 
+
 def rodaNGeracoes_deriva(geracoes, p, popSize):
     result = []
     lastPopP = p
@@ -8,15 +9,16 @@ def rodaNGeracoes_deriva(geracoes, p, popSize):
         result.append(lastPopP)
     return result
 
+
 def proximaGeracaoP(popSize, p):
     sum = 0
-    randomPop = random.choices([0,1], weights=(1-p,p), k=popSize)
+    randomPop = random.choices([0, 1], weights=(1-p, p), k=popSize)
 
-    for i in range (0, len(randomPop)):
+    for i in range(0, len(randomPop)):
         sum = sum + randomPop[i]
 
     return sum/popSize
-        
+
 # def proximaGeracao(popAtual):
 #     proxPop =[]
 #     for x in range(0, len(popAtual)):
