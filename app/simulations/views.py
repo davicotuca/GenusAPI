@@ -146,7 +146,7 @@ def simulacaoGeral(request):
             if "geracaoGargalo" in request.query_params and "popGargalo" in request.query_params:
                 return derivaGargalo(request)
             else:
-                deriva(request)
+                return deriva(request)
         if "WAA" in request.query_params and "WAa" in request.query_params and "Waa" in request.query_params:
             if "population_size" in request.query_params:
                 return selecaoDeriva(request)
