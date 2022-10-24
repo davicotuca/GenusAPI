@@ -133,15 +133,14 @@ def selecaoMutacao(request):
         u = float(u)
     except ValueError:
         return Response({"message": "Parameters don't follow the expected"})
-    # result = derivaService.rodaNGeracoes_deriva(10,0.5,5)
-    result = selecaoMutacaoService.rodaNGeracoes_deriva(p, s, h, u, geracoes)
 
+    result = selecaoMutacaoService.selecaoComMutacao(p, s, h, u, geracoes)
     return Response(result)
 
 
 @api_view(['GET'])
 def simulacaoGeral(request):
-    
+
     if "generations" in request.query_params and "initial_p" in request.query_params:
         if "population_size" in request.query_params and "populations" in request.query_params:
             if "geracaoGargalo" in request.query_params and "popGargalo" in request.query_params:
@@ -154,7 +153,7 @@ def simulacaoGeral(request):
             else:
                 return selecao(request.query_params)
         if 's' in request.query_params and 'h' in request.query_params and 'u' in request.query_params:
-                return selecaoMutacao(request)
+            return selecaoMutacao(request)
 
     return Response({"message": "Error, given parameters don't match any simulation available"})
 
