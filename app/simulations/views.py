@@ -6,6 +6,7 @@ from simulations import derivaService
 from simulations import gargaloService
 from simulations import selecaoService
 from simulations import derivaSelecaoService
+from simulations import selecaoMutacaoService
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -117,21 +118,43 @@ def selecaoDeriva(request):
     return Response(result)
 
 
+def selecaoMutacao(request):
+    geracoes = request.query_params.get('generations')
+    p = request.query_params.get('initial_p')
+    s = request.query_params.get('s')
+    h = request.query_params.get('h')
+    u = request.query_params.get('u')
+
+    try:
+        p = float(p)
+        geracoes = int(geracoes)
+        s = float(s)
+        h = float(h)
+        u = float(u)
+    except ValueError:
+        return Response({"message": "Parameters don't follow the expected"})
+    # result = derivaService.rodaNGeracoes_deriva(10,0.5,5)
+    result = selecaoMutacaoService.rodaNGeracoes_deriva(p, s, h, u, geracoes)
+
+    return Response(result)
+
+
 @api_view(['GET'])
 def simulacaoGeral(request):
-
+    
     if "generations" in request.query_params and "initial_p" in request.query_params:
         if "population_size" in request.query_params and "populations" in request.query_params:
             if "geracaoGargalo" in request.query_params and "popGargalo" in request.query_params:
-                derivaGargalo(request)
+                return derivaGargalo(request)
             else:
                 deriva(request)
-        else:
-            if "WAA" in request.query_params and "WAa" in request.query_params and "Waa" in request.query_params:
-                if "population_size" in request.query_params:
-                    selecaoDeriva(request)
-                else:
-                    return selecao(request.query_params)
+        if "WAA" in request.query_params and "WAa" in request.query_params and "Waa" in request.query_params:
+            if "population_size" in request.query_params:
+                return selecaoDeriva(request)
+            else:
+                return selecao(request.query_params)
+        if 's' in request.query_params and 'h' in request.query_params and 'u' in request.query_params:
+                return selecaoMutacao(request)
 
     return Response({"message": "Error, given parameters don't match any simulation available"})
 

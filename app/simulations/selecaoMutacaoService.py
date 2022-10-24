@@ -1,4 +1,4 @@
-def selecao(p, s, h, u, geracoes):
+def rodaNGeracoes_deriva(p, s, h, u, geracoes):
     result = []
     result.append(p)
     WAA = 1
