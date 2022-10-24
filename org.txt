@@ -1,0 +1,29 @@
+def selecaoDeriva(request):
+    geracoes = request.query_params.get('generations')
+    initialPop = request.query_params.get('initial_p')
+    WAA = request.query_params.get('WAA')
+    WAa = request.query_params.get('WAa')
+    Waa = request.query_params.get('Waa')
+    popSize = request.query_params.get('population_size')
+
+
+def selecao(request):
+    geracoes = request.query_params.get('generations')
+    initialPop = request.query_params.get('initial_p')
+    WAA = request.query_params.get('WAA')
+    WAa = request.query_params.get('WAa')
+    Waa = request.query_params.get('Waa')
+
+def derivaGargalo(request):
+    popSize = request.query_params.get('population_size')
+    generations = request.query_params.get('generations')
+    initialPop = request.query_params.get('initial_p')
+    pops = request.query_params.get('populations')
+    geracaoGargalo = request.query_params.get('geracaoGargalo')
+    popGargalo = request.query_params.get('popGargalo')
+
+def deriva(request):
+    popSize = request.query_params.get('population_size')
+    generations = request.query_params.get('generations')
+    initialPop = request.query_params.get('initial_p')
+    pops = request.query_params.get('populations')
