@@ -6,13 +6,13 @@ def selecaoDeriva(request):
     Waa = request.query_params.get('Waa')
     popSize = request.query_params.get('population_size')
 
-
 def selecao(request):
     geracoes = request.query_params.get('generations')
     initialPop = request.query_params.get('initial_p')
     WAA = request.query_params.get('WAA')
     WAa = request.query_params.get('WAa')
     Waa = request.query_params.get('Waa')
+    
 
 def derivaGargalo(request):
     popSize = request.query_params.get('population_size')
@@ -27,3 +27,12 @@ def deriva(request):
     generations = request.query_params.get('generations')
     initialPop = request.query_params.get('initial_p')
     pops = request.query_params.get('populations')
+
+
+EndPoints
+
+-> Simulator get
+
+-> Grupo List/Get/Delete/Update
+
+-> GrupoSimulacao List/Get/Delete/Update

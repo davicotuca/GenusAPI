@@ -48,11 +48,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Parametros(models.Model):
     """Parametros in the system."""
-    pop_size = models.IntegerField(null=True)
+    population_size = models.IntegerField(null=True)
     generations = models.IntegerField()
+    populations = models.IntegerField(null=True)
     pop_bottleneck = models.IntegerField(null=True)
     generation_bottleneck = models.IntegerField(null=True)
-    p_inicial = models.DecimalField(max_digits=11, decimal_places=10)
+    initial_p = models.DecimalField(max_digits=11, decimal_places=10)
     WAA = models.DecimalField(max_digits=3, decimal_places=2, null=True)
     WAa = models.DecimalField(max_digits=3, decimal_places=2, null=True)
     Waa = models.DecimalField(max_digits=3, decimal_places=2, null=True)

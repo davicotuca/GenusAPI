@@ -41,7 +41,7 @@ class ParametrosSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Parametros
-        fields = ['id', 'pop_size', 'generations', 'pop_bottleneck', 'generation_bottleneck', 'p_inicial', 'WAA', 'WAa', 'Waa', 's', 'h', 'u']
+        fields = ['id', 'population_size', 'populations', 'generations', 'pop_bottleneck', 'generation_bottleneck', 'initial_p', 'WAA', 'WAa', 'Waa', 's', 'h', 'u']
         read_only_fields = ['id']
 
 
