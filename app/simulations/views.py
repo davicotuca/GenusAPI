@@ -22,189 +22,117 @@ from core.models import (
 )
 from simulations import serializers
 
+listaParamGeral = ['population_size', 'generations', 'initial_p', 'populations', 'generation_bottleneck', 'pop_bottleneck', 'WAA', 'WAa', 'Waa', 'h', 'u', 's']
 
-def deriva(request):
 
-    popSize = request.query_params.get('population_size')
-    generations = request.query_params.get('generations')
-    initialPop = request.query_params.get('initial_p')
-    pops = request.query_params.get('populations')
+def extrai_valida(query_params, listaParams):
+    result = []
+    for x in listaParams:
+        valor = query_params.pop(x)
+        param_result = {'nome': x, 'valor': valor[0]}
+        result.append(param_result)
 
-    try:
-        popSize = int(popSize)
-        generations = int(generations)
-        pops = int(pops)
-        initialPop = float(initialPop)
-    except ValueError:
-        return Response({"message": "Parameters don't follow the expects" +
-                         " format! population_size, generations," +
-                         " initial_p, populations"})
+    return extrai(result)
+
+
+def extrai(listaParametros):
+    result = {}
+    for param in listaParametros:
+        try:
+            if(not param['valor'].upper() == 'NULL'):
+                if(param['nome'] == 'population_size' or param['nome'] == 'generations' or param['nome'] == 'populations' or param['nome'] == 'generation_bottleneck' or param['nome'] == 'pop_bottleneck'):
+                    valor = int(param['valor'])
+                else:
+                    valor = float(param['valor'])
+                    param['valor'] = valor
+                result[param['nome']] = valor
+        except ValueError:
+            return Response({"message": "Parameters don't follow the expected"})
+    return result
+
+
+def deriva(extractedParams):
 
     result = {}
-
-    for x in range(0, pops):
+    for x in range(0, extractedParams.get('populations')):
         result[x] = derivaService.rodaNGeracoes_deriva(
-            generations, initialPop, popSize)
+            extractedParams.get('generations'),
+            extractedParams.get('initial_p'),
+            extractedParams.get('population_size'))
+
     return Response(result)
 
 
-def derivaGargalo(request):
-
-    popSize = request.query_params.get('population_size')
-    generations = request.query_params.get('generations')
-    initialPop = request.query_params.get('initial_p')
-    pops = request.query_params.get('populations')
-    geracaoGargalo = request.query_params.get('geracaoGargalo')
-    popGargalo = request.query_params.get('popGargalo')
-
-    try:
-        popSize = int(popSize)
-        generations = int(generations)
-        pops = int(pops)
-        initialPop = float(initialPop)
-        geracaoGargalo = int(geracaoGargalo)
-        popGargalo = int(popGargalo)
-    except ValueError:
-        return Response({"message": "Parameters don't follow the expected"})
+def derivaGargalo(extractedParams):
 
     result = {}
-
-    for x in range(0, pops):
+    for x in range(0, extractedParams.get('populations')):
         result[x] = gargaloService.derivaComGargalo(
-            generations, initialPop, popSize, geracaoGargalo, popGargalo)
-    return Response(result)
-
-
-def selecao(query_params):
-    geracoes = query_params.get('generations')
-    initialPop = query_params.get('initial_p')
-    WAA = query_params.get('WAA')
-    WAa = query_params.get('WAa')
-    Waa = query_params.get('Waa')
-
-    try:
-        initialPop = float(initialPop)
-        geracoes = int(geracoes)
-        WAA = float(WAA)
-        WAa = float(WAa)
-        Waa = float(Waa)
-    except ValueError:
-        return Response({"message": "Parameters don't follow the expected"})
-
-    result = selecaoService.selecao(initialPop, WAA, WAa, Waa, geracoes)
-    return Response(result)
-
-
-def selecaoDeriva(request):
-    geracoes = request.query_params.get('generations')
-    initialPop = request.query_params.get('initial_p')
-    WAA = request.query_params.get('WAA')
-    WAa = request.query_params.get('WAa')
-    Waa = request.query_params.get('Waa')
-    popSize = request.query_params.get('population_size')
-
-    try:
-        initialPop = float(initialPop)
-        geracoes = int(geracoes)
-        WAA = float(WAA)
-        WAa = float(WAa)
-        Waa = float(Waa)
-        popSize = int(popSize)
-    except ValueError:
-        return Response({"message": "Parameters don't follow the expected"})
-
-    result = derivaSelecaoService.selecaoDeriva(initialPop, WAA, WAa, Waa, geracoes, popSize)
+            extractedParams.get('generations'),
+            extractedParams.get('initial_p'),
+            extractedParams.get('population_size'),
+            extractedParams.get('generation_bottleneck'),
+            extractedParams.get('pop_bottleneck'))
 
     return Response(result)
 
 
-def selecaoMutacao(request):
-    geracoes = request.query_params.get('generations')
-    p = request.query_params.get('initial_p')
-    s = request.query_params.get('s')
-    h = request.query_params.get('h')
-    u = request.query_params.get('u')
+def selecao(extractedParams):
 
-    try:
-        p = float(p)
-        geracoes = int(geracoes)
-        s = float(s)
-        h = float(h)
-        u = float(u)
-    except ValueError:
-        return Response({"message": "Parameters don't follow the expected"})
+    return Response(selecaoService.selecao(
+        extractedParams.get('initial_p'),
+        extractedParams.get('WAA'),
+        extractedParams.get('WAa'),
+        extractedParams.get('Waa'),
+        extractedParams.get('generations')))
 
-    result = selecaoMutacaoService.selecaoComMutacao(p, s, h, u, geracoes)
-    return Response(result)
+
+def selecaoDeriva(extractedParams):
+
+    return Response(derivaSelecaoService.selecaoDeriva(
+        extractedParams.get('initial_p'),
+        extractedParams.get('WAA'),
+        extractedParams.get('WAa'),
+        extractedParams.get('Waa'),
+        extractedParams.get('generations'),
+        extractedParams.get('population_size')))
+
+
+def selecaoMutacao(extractedParams):
+
+    return Response(selecaoMutacaoService.selecaoComMutacao(
+        extractedParams.get('initial_p'),
+        extractedParams.get('s'),
+        extractedParams.get('h'),
+        extractedParams.get('u'),
+        extractedParams.get('generations')))
 
 
 @api_view(['GET'])
 def simulacaoGeral(request):
 
-    if "generations" in request.query_params and "initial_p" in request.query_params:
-        if "population_size" in request.query_params and "populations" in request.query_params:
-            if "geracaoGargalo" in request.query_params and "popGargalo" in request.query_params:
-                return derivaGargalo(request)
+    extractedParams = extrai_valida(request.query_params.copy(), listaParamGeral)
+
+    if "generations" in extractedParams and "initial_p" in extractedParams:
+        if "population_size" in extractedParams and "populations" in extractedParams:
+            if "generation_bottleneck" in extractedParams and "pop_bottleneck" in extractedParams:
+                print("deriva gargado")
+                return derivaGargalo(extractedParams)
             else:
-                return deriva(request)
-        if "WAA" in request.query_params and "WAa" in request.query_params and "Waa" in request.query_params:
-            if "population_size" in request.query_params:
-                return selecaoDeriva(request)
+                print("deriva")
+                return deriva(extractedParams)
+        if "WAA" in extractedParams and "WAa" in extractedParams and "Waa" in extractedParams:
+            if "population_size" in extractedParams:
+                print("selecaoDeriva")
+                return selecaoDeriva(extractedParams)
             else:
-                return selecao(request.query_params)
-        if 's' in request.query_params and 'h' in request.query_params and 'u' in request.query_params:
-            return selecaoMutacao(request)
+                print("selecao")
+                return selecao(extractedParams)
+        if 's' in extractedParams and 'h' in extractedParams and 'u' in extractedParams:
+            print("selecaoMutacao")
+            return selecaoMutacao(extractedParams)
 
     return Response({"message": "Error, given parameters don't match any simulation available"})
-
-# @api_view(['POST'])
-# def simulacao(request):
-#     respJson = json.loads(request.body)
-
-#     resultados = Resultados.objects.create(
-#         resultado =  respJson['resultado']
-#     )
-
-#     print("olha o resutado  ")
-#     print(resultados.resultado)
-
-#     paramJson = respJson['parametros']
-
-#     parametros = Parametros.objects.create(
-#         pop_size = paramJson["pop_size"],
-#         generations = paramJson["generations"],
-#         pop_bottleneck = paramJson["pop_bottleneck"],
-#         generation_bottleneck = paramJson["generation_bottleneck"],
-#         p_inicial = paramJson["p_inicial"],
-#         WAA = paramJson["WAA"],
-#         WAa = paramJson["WAa"],
-#         Waa = paramJson["Waa"],
-#         s = paramJson["s"],
-#         h = paramJson["h"],
-#         u = paramJson["u"],
-#     )
-
-#     simulacao = Simulacao.objects.create(
-#         resultado = resultados,
-#         parametros = parametros,
-#         nome = respJson['simulacao_nome']
-#     )
-
-#     grupo = Grupo.objects.get(id=respJson['grupoID'])
-
-#     rGrupoSimulação = GrupoSimulacao.objects.create(
-#         grupo = grupo,
-#         simulacao = simulacao
-#     )
-
-#     print(rGrupoSimulação.simulacao.nome)
-#     print(rGrupoSimulação.grupo.nome)
-#     print(parametros.pop_size)
-#     print(resultados.resultado)
-#     print(simulacao.nome)
-
-
-#     return Response({"message": simulacao.nome})
 
 
 class GrupoViewSet(mixins.RetrieveModelMixin, mixins.CreateModelMixin, mixins.DestroyModelMixin, mixins.UpdateModelMixin, mixins.ListModelMixin, viewsets.GenericViewSet):

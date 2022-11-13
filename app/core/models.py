@@ -53,7 +53,7 @@ class Parametros(models.Model):
     populations = models.IntegerField(null=True)
     pop_bottleneck = models.IntegerField(null=True)
     generation_bottleneck = models.IntegerField(null=True)
-    initial_p = models.DecimalField(max_digits=11, decimal_places=10)
+    initial_p = models.DecimalField(max_digits=3, decimal_places=2)
     WAA = models.DecimalField(max_digits=3, decimal_places=2, null=True)
     WAa = models.DecimalField(max_digits=3, decimal_places=2, null=True)
     Waa = models.DecimalField(max_digits=3, decimal_places=2, null=True)

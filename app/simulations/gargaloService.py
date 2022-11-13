@@ -2,9 +2,7 @@ from simulations import derivaService
 
 
 def derivaComGargalo(geracoes, p, popSize, geracaoGargalo, popGargalo):
-    firstPart = geracoes - geracaoGargalo
-    secondPart = geracoes - firstPart
-    result = derivaService.rodaNGeracoes_deriva(firstPart, p, popSize)
+    result = derivaService.rodaNGeracoes_deriva(geracaoGargalo-1, p, popSize)
     result = result + derivaService.rodaNGeracoes_deriva(
-        secondPart, result[geracaoGargalo-1], popGargalo)
+        geracoes - geracaoGargalo + 1, result[geracaoGargalo-2], popGargalo)
     return result
