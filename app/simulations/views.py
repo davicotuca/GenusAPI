@@ -95,7 +95,8 @@ def selecaoDeriva(extractedParams):
         extractedParams.get('WAa'),
         extractedParams.get('Waa'),
         extractedParams.get('generations'),
-        extractedParams.get('population_size')))
+        extractedParams.get('population_size'),
+        extractedParams.get('populations')))
 
 
 def selecaoMutacao(extractedParams):
@@ -118,16 +119,15 @@ def simulacaoGeral(request):
             if "generation_bottleneck" in extractedParams and "pop_bottleneck" in extractedParams:
                 print("deriva gargado")
                 return derivaGargalo(extractedParams)
+            if "WAA" in extractedParams and "WAa" in extractedParams and "Waa" in extractedParams:
+                print("selecaoDeriva")
+                return selecaoDeriva(extractedParams)
             else:
                 print("deriva")
                 return deriva(extractedParams)
         if "WAA" in extractedParams and "WAa" in extractedParams and "Waa" in extractedParams:
-            if "population_size" in extractedParams:
-                print("selecaoDeriva")
-                return selecaoDeriva(extractedParams)
-            else:
-                print("selecao")
-                return selecao(extractedParams)
+            print("selecao")
+            return selecao(extractedParams)
         if 's' in extractedParams and 'h' in extractedParams and 'u' in extractedParams:
             print("selecaoMutacao")
             return selecaoMutacao(extractedParams)
